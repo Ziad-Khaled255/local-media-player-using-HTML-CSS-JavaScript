@@ -1,2 +1,4 @@
-# local-media-player-using-HTML-CSS-JavaScript
-local-media-player using HTML, CSS &amp; JavaScript
+# local-media-player using HTML, CSS & JavaScript
+
+# notice
+- you fill the audio and images folders

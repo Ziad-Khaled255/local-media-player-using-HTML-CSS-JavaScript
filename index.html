@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="phone light">
+            <div id="top-menu">
+                <div class="button" onclick="window.location.href='tracks.html'">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+            </div>
+            
+            <div class="thumbnail-border">
+                <div class="song-thumbnail" id="song-thumbnail"></div>
+            </div>
+            
+            <div id="song-details">
+                <h1 class="song-title" id="song-title">SUMMER</h1>
+                <span class="artist" id="song-artist">Helal-encyclopedia</span>
+            </div>
+
+            <div id="time-slider">
+                <div class="slider-times">
+                    <span id="current-time">0:00</span> 
+                    <span id="total-time">0:00</span> 
+                </div>
+                <input type="range" min="0" max="100" value="0" class="slider" id="time-slider-input">
+            </div>
+            
+            <div id="song-controls">
+                <div class="button" onclick="skip(-10)">
+                    <i class="fas fa-backward"></i>
+                </div>
+                <div class="button" onclick="playPause()">
+                    <i class="fas fa-play" id="play-pause-icon"></i>
+                </div>
+                <div class="button" onclick="skip(10)">
+                    <i class="fas fa-forward"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio id="audio-player" src=""></audio>
+    <script>
+        const audioPlayer = document.getElementById('audio-player');
+        const songThumbnail = document.getElementById('song-thumbnail');
+        const songTitle = document.getElementById('song-title');
+        const songArtist = document.getElementById('song-artist');
+        const currentTime = document.getElementById('current-time');
+        const totalTime = document.getElementById('total-time');
+        const timeSlider = document.getElementById('time-slider-input');
+        const playPauseIcon = document.getElementById('play-pause-icon');
+
+        // Load the selected track from localStorage
+        const track = JSON.parse(localStorage.getItem('selectedTrack'));
+        if (track) {
+            audioPlayer.src = track.src;
+            songThumbnail.style.backgroundImage = `url('${track.image}')`;
+            songTitle.innerText = track.title;
+        }
+
+        // Update the total time when the audio metadata is loaded
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            totalTime.innerText = formatTime(audioPlayer.duration);
+        });
+
+        // Update the current time and slider as the audio plays
+        audioPlayer.addEventListener('timeupdate', () => {
+            currentTime.innerText = formatTime(audioPlayer.currentTime);
+            timeSlider.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        });
+
+        // Allow seeking by dragging the slider
+        timeSlider.addEventListener('input', () => {
+            audioPlayer.currentTime = (timeSlider.value / 100) * audioPlayer.duration;
+        });
+
+        // Play/Pause functionality
+        function playPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseIcon.classList.remove('fa-play');
+                playPauseIcon.classList.add('fa-pause');
+            } else {
+                audioPlayer.pause();
+                playPauseIcon.classList.remove('fa-pause');
+                playPauseIcon.classList.add('fa-play');
+            }
+        }
+
+        // Skip forward or backward
+        function skip(seconds) {
+            audioPlayer.currentTime += seconds;
+        }
+
+        // Format time in minutes:seconds
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+audioPlayer.play().then(() => {
+    playPauseIcon.classList.remove('fa-play');
+    playPauseIcon.classList.add('fa-pause');
+}).catch((error) => {
+    console.error("Autoplay failed:", error);
+    // Show a play button or message to the user
+    alert("Click the play button to start playback.");
+});
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Tracks</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="phone light">
+            <div id="top-menu">
+                
+            </div>
+            <div id="track-list">
+                <!-- Tracks will be dynamically generated here -->
+            </div>
+        </div>
+    </div>
+    <script>
+        // Sample track data (replace with your actual data)
+       const tracks = [
+    { src: 'audio/track1.mp3', title: 'Track 1', artist: 'Artist 1', image: 'images/track1.jpg' },
+    { src: 'audio/track2.mp3', title: 'Track 2', artist: 'Artist 2', image: 'images/track2.jpg' },
+    { src: 'audio/track3.mp3', title: 'Track 3', artist: 'Artist 3', image: 'images/track3.jpg' },
+    { src: 'audio/track4.mp3', title: 'Track 4', artist: 'Artist 4', image: 'images/track4.jpg' },
+    { src: 'audio/track5.mp3', title: 'Track 5', artist: 'Artist 5', image: 'images/track5.jpg' },
+    { src: 'audio/track6.mp3', title: 'Track 6', artist: 'Artist 6', image: 'images/track6.jpg' },
+    { src: 'audio/track7.mp3', title: 'Track 7', artist: 'Artist 7', image: 'images/track7.jpg' },
+    { src: 'audio/track8.mp3', title: 'Track 8', artist: 'Artist 8', image: 'images/track8.jpg' },
+    { src: 'audio/track9.mp3', title: 'Track 9', artist: 'Artist 9', image: 'images/track9.jpg' },
+    { src: 'audio/track10.mp3', title: 'Track 10', artist: 'Artist 10', image: 'images/track10.jpg' },
+    { src: 'audio/track11.mp3', title: 'Track 11', artist: 'Artist 11', image: 'images/track11.jpg' },
+    { src: 'audio/track12.mp3', title: 'Track 12', artist: 'Artist 12', image: 'images/track12.jpg' },
+    { src: 'audio/track13.mp3', title: 'Track 13', artist: 'Artist 13', image: 'images/track13.jpg' },
+    { src: 'audio/track14.mp3', title: 'Track 14', artist: 'Artist 14', image: 'images/track14.jpg' },
+    { src: 'audio/track15.mp3', title: 'Track 15', artist: 'Artist 15', image: 'images/track15.jpg' },
+    { src: 'audio/track16.mp3', title: 'Track 16', artist: 'Artist 16', image: 'images/track16.jpg' },
+    { src: 'audio/track17.mp3', title: 'Track 17', artist: 'Artist 17', image: 'images/track17.jpg' },
+    { src: 'audio/track18.mp3', title: 'Track 18', artist: 'Artist 18', image: 'images/track18.jpg' }
+];
+
+
+        const trackList = document.getElementById('track-list');
+
+        // Dynamically generate track list
+        tracks.forEach((track, index) => {
+            const trackDiv = document.createElement('div');
+            trackDiv.className = 'track';
+            trackDiv.innerHTML = `
+                <img src="${track.image}" alt="${track.title}">
+                <div class="track-info">
+                    <span class="track-title">${track.title}</span>
+                   
+                </div>
+                <div class="play-button" onclick="selectTrack('${track.src}', '${track.title}', '${track.artist}', '${track.image}')">
+                    <i class="fas fa-play"></i>
+                </div>
+            `;
+            trackList.appendChild(trackDiv);
+        });
+
+        function selectTrack(src, title, artist, image) {
+            // Store the selected track in localStorage
+            localStorage.setItem('selectedTrack', JSON.stringify({ src, title, artist, image }));
+            // Redirect to the player page
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
